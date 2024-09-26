@@ -1,0 +1,11 @@
+services:
+  {{projectName}}:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_NAME: {{projectName}}
+    image: {{projectName}}
+    container_name: {{projectName}}
+    ports:
+      - '127.0.0.1:${SERVER_PORT}:80'

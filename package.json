@@ -1,0 +1,27 @@
+{
+  "name": "angular-standards-cli",
+  "version": "1.0.0",
+  "description": "CLI tool to create Angular projects with custom standards and configurations",
+  "main": "dist/index.js",
+  "type": "module",
+  "bin": {
+    "angular-standards-cli": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node dist/index.js"
+  },
+  "keywords": [],
+  "author": "Vikas Kyatannawar",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "execa": "^9.4.0",
+    "inquirer": "^11.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.5",
+    "typescript": "^5.6.2"
+  }
+}
