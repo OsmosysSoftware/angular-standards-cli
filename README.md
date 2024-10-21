@@ -18,7 +18,7 @@ The `angular-standards-cli` is a tool designed to help developers create Angular
 To install `angular-standards-cli` locally, follow these steps:
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/OsmosysSoftware/angular-standards-cli
 cd angular-standards-cli
 npm install
 npm link angular-standards-cli  # Links the CLI tool globally
