@@ -21,7 +21,7 @@ To install `angular-standards-cli` locally, follow these steps:
 git clone <repo-url>
 cd angular-standards-cli
 npm install
-npm link  # Links the CLI tool globally
+npm link angular-standards-cli  # Links the CLI tool globally
 ```
 
 Now, you can use `angular-standards-cli` as a global command.

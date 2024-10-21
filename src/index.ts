@@ -46,6 +46,9 @@ program
       // Modify package.json to include scripts
       modifyPackageJson(projectName);
 
+      // Modify angular.json to add assets configuration
+      modifyAngularJsonAssets(projectName);
+
       // Step 2: PrimeNG Setup
       const { addPrimeNG } = await inquirer.prompt({
         type: 'confirm',
@@ -84,6 +87,7 @@ program
       await createFolderStructure(projectName);
       await setupI18n(projectName);
 
+      await execa('npm', ['run', 'prettier-format']);
       console.log(chalk.green(`\nProject ${projectName} created successfully with all configurations!\n`));
     } catch (err: any) {
       console.error(chalk.red(`\nFailed to create Angular project: ${err.message}\n`));
@@ -99,12 +103,34 @@ program
     }
   });
 
+// Modify angular.json assets folder
+function modifyAngularJsonAssets(projectName: string) {
+  const angularJsonPath = path.join(process.cwd(), 'angular.json');
+  const angularJson = JSON.parse(fs.readFileSync(angularJsonPath, 'utf8'));
+
+  if (angularJson && angularJson.projects && angularJson.projects[projectName]) {
+    const assetsConfig = {
+      "glob": "**/*",
+      "input": "src/assets"
+    };
+    
+    if (angularJson.projects[projectName].architect.build.options.assets) {
+      angularJson.projects[projectName].architect.build.options.assets.push(assetsConfig);
+    } else {
+      angularJson.projects[projectName].architect.build.options.assets = [assetsConfig];
+    }
+  }
+
+  fs.writeFileSync(angularJsonPath, JSON.stringify(angularJson, null, 2));
+  console.log(chalk.green('\nUpdated angular.json to include assets folder configuration!\n'));
+}
+
 // PrimeNG Setup
 async function addPrimeNGSupport() {
   console.log(chalk.blue('\nInstalling PrimeNG...'));
   await execa('npm', ['install', 'primeng', 'primeflex', 'primeicons'], { stdio: 'inherit' });
 
-  const stylesPath = 'src/styles.css';
+  const stylesPath = 'src/styles.scss';
   const primeStyles = `
 /* PrimeNG */
 @import "primeng/resources/themes/lara-light-blue/theme.css";
@@ -210,8 +236,6 @@ async function setupLintingAndPrettier(projectName: string) {
   const vscodeDir = path.join('.vscode');
   fs.mkdirSync(vscodeDir, { recursive: true });
   processTemplate(vscodeSettingsTemplatePath, path.join(vscodeDir, 'settings.json'), {});
-
-  console.log(chalk.green('\nESLint, Prettier, and Airbnb configuration added!\n'));
 
   console.log(chalk.green('\nESLint, Prettier, and Airbnb configuration added!\n'));
 }
@@ -341,17 +365,17 @@ export class AppComponent {
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import TranslateLoaderFactory from '../assets/i18n/loader';
+import HttpLoaderFactory from '../assets/i18n/loader';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), importProvidersFrom(
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideHttpClient(), importProvidersFrom(
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {
         provide: TranslateLoader,
-        useFactory: TranslateLoaderFactory,
+        useFactory: HttpLoaderFactory,
         deps: [HttpClient],
       },
     })
@@ -371,7 +395,7 @@ export const appConfig: ApplicationConfig = {
 }
 
 function toTitleCase(str: string) {
-  return str.replace(/-/, ' ').replace(
+  return str.replace(/-/g, ' ').replace(
     /\w\S*/g,
     text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
   );

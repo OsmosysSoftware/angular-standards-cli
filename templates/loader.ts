@@ -13,7 +13,7 @@ if (baseElements.length > 0 && baseElements[0].href) {
 }
 
 function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, `${basePath}assets/i18n/`, '.json');
+  return new TranslateHttpLoader(http, `${basePath}i18n/`, '.json');
 }
 
 export default HttpLoaderFactory;
