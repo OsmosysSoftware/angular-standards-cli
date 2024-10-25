@@ -353,10 +353,10 @@ export class AppComponent {
 
  const appComponentHtml = `
  <div class="p-card p-3">
-   <div class="p-d-flex p-ai-center p-jc-center">
-     <i class="pi pi-globe p-mr-2"></i>
-     <h1>{{ 'COMMON.HELLO' | translate }}, {{ 'COMMON.BRAND_NAME' | translate }}!</h1>
-   </div>
+  <div class="flex align-items-center justify-content-center">
+    <i class="pi pi-globe mr-2"></i>
+    <h1>{{ 'COMMON.HELLO' | translate }}, {{ 'COMMON.BRAND_NAME' | translate }}!</h1>
+  </div>
  </div>
 
  <!-- Router Outlet -->
