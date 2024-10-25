@@ -214,7 +214,7 @@ async function setupLintingAndPrettier(projectName: string) {
   await execa('npm', ['init', '@eslint/config'], { stdio: 'inherit' });
   await execa('npm', ['install', 'eslint@^8.56.0'])
   // Step 2: Install TypeScript and Airbnb-specific ESLint dependencies
-  await execa('npm', ['install', 'eslint-config-airbnb-typescript', '@typescript-eslint/eslint-plugin', '@typescript-eslint/parser', '--save-dev'], { stdio: 'inherit' });
+  await execa('npm', ['install', 'eslint-config-airbnb-typescript@^18.0.0', '@typescript-eslint/eslint-plugin@^7.0.0', '@typescript-eslint/parser@^7.0.0', '--save-dev'], { stdio: 'inherit' });
 
   // Step 3: Install Prettier and related ESLint configurations
   await execa('npm', ['install', 'prettier', 'eslint-config-prettier', 'eslint-plugin-prettier', '--save-dev'], { stdio: 'inherit' });
@@ -303,6 +303,8 @@ async function createFolderStructure(projectName: string) {
 
 async function setupI18n(projectName: string) {
   console.log(chalk.blue('\nSetting up i18n (internationalization) support...\n'));
+
+ await execa('npm', ['install', 'eslint@^8.56.0'])
 
  // Step 1: Install ngx-translate packages
  await execa('npm', ['install', '@ngx-translate/core', '@ngx-translate/http-loader'], { stdio: 'inherit' });
