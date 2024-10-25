@@ -21,6 +21,7 @@ To install `angular-standards-cli` locally, follow these steps:
 git clone https://github.com/OsmosysSoftware/angular-standards-cli
 cd angular-standards-cli
 npm install
+npm run build
 npm link  # Links the CLI tool globally
 ```
 
