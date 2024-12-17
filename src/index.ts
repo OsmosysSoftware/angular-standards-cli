@@ -168,17 +168,16 @@ function modifyPackageJson(projectName: string) {
 // CI Setup
 async function setupCI(type: string, projectName: string) {
   const templatePath = path.join(__dirname, '..', 'templates', `${type}-ci.yml`);
-  const outputPath = type === 'github' ? '.github/workflows/ci.yml' : '.gitlab-ci.yml';
+  const outputPath =
+    type === 'github' ? '.github/workflows/ci.yml' : '.gitlab-ci.yml';
 
   console.log(chalk.blue(`\nSetting up ${type.toUpperCase()} CI/CD...`));
   processTemplate(templatePath, outputPath, { projectName });
   if (type === 'github') {
     // Add CD setup for GitHub
-    processTemplate(
-      path.join(__dirname, '..', 'templates', `github-cd.yml`),
-      '.github/workflows/cd.yml',
-      { projectName }
-    );
+    const cdTemplatePath = path.join(__dirname, '..', 'templates', 'github-cd.yml');
+    const cdOutputPath = '.github/workflows/cd.yml';
+    processTemplate(cdTemplatePath, cdOutputPath, { projectName });
   }
   console.log(chalk.green(`\n${type.toUpperCase()} CI/CD configuration added!\n`));
 }
