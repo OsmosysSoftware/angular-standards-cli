@@ -113,7 +113,7 @@ function modifyAngularJsonAssets(projectName: string) {
       "glob": "**/*",
       "input": "src/assets"
     };
-    
+
     if (angularJson.projects[projectName].architect.build.options.assets) {
       angularJson.projects[projectName].architect.build.options.assets.push(assetsConfig);
     } else {
@@ -172,6 +172,14 @@ async function setupCI(type: string, projectName: string) {
 
   console.log(chalk.blue(`\nSetting up ${type.toUpperCase()} CI/CD...`));
   processTemplate(templatePath, outputPath, { projectName });
+  if (type === 'github') {
+    // Add CD setup for GitHub
+    processTemplate(
+      path.join(__dirname, '..', 'templates', `github-cd.yml`),
+      '.github/workflows/cd.yml',
+      { projectName }
+    );
+  }
   console.log(chalk.green(`\n${type.toUpperCase()} CI/CD configuration added!\n`));
 }
 
@@ -254,7 +262,7 @@ async function setupPullRequestTemplate() {
 
 async function createFolderStructure(projectName: string) {
   console.log(chalk.blue('\nCreating project folder structure...\n'));
-  
+
   // Folders to create
   const foldersToCreate = [
     'src/assets',
@@ -281,7 +289,7 @@ async function createFolderStructure(projectName: string) {
   foldersToCreate.forEach((folder) => {
     const folderPath = path.join(folder);
     fs.mkdirSync(folderPath, { recursive: true });
-    
+
     // Add .gitkeep to empty folders
     if(!folderPath.includes('declarations')) {
       fs.writeFileSync(path.join(folderPath, '.gitkeep'), '');

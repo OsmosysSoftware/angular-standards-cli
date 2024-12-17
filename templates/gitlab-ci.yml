@@ -1,9 +1,11 @@
 stages:
   - lint
   - build
+  - deploy
 
 variables:
   merge_request_branches: "/^main|development$/"
+  DEPLOY_SITE: "https://example.com/"
 
 .rules_template: &rules_template
   rules:
@@ -28,3 +30,10 @@ building:
   tags:
     - Node-18-LTS
   <<: *rules_template
+
+deploying:
+  stage: deploy
+  script:
+    - echo "This job deploys the code. Add deployment scripts here."
+    - deploy-script --url $DEPLOY_SITE --path "/"
+  environment: production
