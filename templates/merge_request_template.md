@@ -4,7 +4,7 @@
 
 ## Description
 
-[Describe the changes you made to achieve this tasks goal. Divide description into 3 sections - 1. What is needed? 2. Why it is needed? 3. How did we achieve this?]
+[Describe the changes you made to achieve this task's goal. Divide description into 3 sections - 1. What is needed? 2. Why is it needed? 3. How did we achieve this?]
 
 ## Documentation (if applicable)
 
