@@ -246,22 +246,21 @@ async function setupLintingAndPrettier(projectName: string) {
 
 // Copy Pull Request template
 async function setupPullRequestTemplate(gitType: string) {
-  console.log(
-    chalk.blue(`\nSetting up Pull Request Template for ${gitType}...\n`)
-  );
+  console.log(chalk.blue(`\nSetting up Pull Request Template for ${gitType}...\n`));
 
   const templatePath =
-    gitType === "github"
-      ? path.join(__dirname, "..", "templates", "pull_request_template.md")
-      : path.join(__dirname, "..", "templates", "merge_request_template.md");
+    gitType === 'github'
+      ? path.join(__dirname, '..', 'templates', 'pull_request_template.md')
+      : path.join(__dirname, '..', 'templates', 'merge_request_template.md');
+
   const outputPath =
-    gitType === "github"
-      ? path.join(".github", "pull_request_template.md")
-      : path.join(".gitlab", "merge_request_template.md");
+    gitType === 'github'
+      ? path.join('.github', 'pull_request_template.md')
+      : path.join('.gitlab', 'merge_request_template.md');
 
   processTemplate(templatePath, outputPath, {});
 
-  console.log(chalk.green("\nPull Request Template added!\n"));
+  console.log(chalk.green('\nPull Request Template added!\n'));
 }
 
 async function createFolderStructure(projectName: string) {
