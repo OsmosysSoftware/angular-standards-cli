@@ -35,5 +35,6 @@ deploying:
   stage: deploy
   script:
     - echo "This job deploys the code. Add deployment scripts here."
-    - deploy-script --url $DEPLOY_SITE --path "/"
+    # Sample script
+    # - deploy-script --url $DEPLOY_SITE --path "/"
   environment: production
