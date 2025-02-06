@@ -83,7 +83,11 @@ program
 
       // Step 6: Linting, Prettier, and Pull Request Template Setup
       await setupLintingAndPrettier(projectName);
-      await setupPullRequestTemplate();
+      if (ciChoice === 'GitHub') {
+        await setupPullRequestTemplate('github');
+      } else {
+        await setupPullRequestTemplate('gitlab');
+      }
       await createFolderStructure(projectName);
       await setupI18n(projectName);
 
@@ -248,11 +252,18 @@ async function setupLintingAndPrettier(projectName: string) {
 }
 
 // Copy Pull Request template
-async function setupPullRequestTemplate() {
-  console.log(chalk.blue('\nSetting up Pull Request Template...\n'));
+async function setupPullRequestTemplate(gitType: string) {
+  console.log(chalk.blue(`\nSetting up Pull Request Template for ${gitType}...\n`));
 
-  const templatePath = path.join(__dirname, '..', 'templates', 'pull_request_template.md');
-  const outputPath = path.join('.github', 'pull_request_template.md');
+  const templatePath =
+    gitType === 'github'
+      ? path.join(__dirname, '..', 'templates', 'pull_request_template.md')
+      : path.join(__dirname, '..', 'templates', 'merge_request_template.md');
+
+  const outputPath =
+    gitType === 'github'
+      ? path.join('.github', 'pull_request_template.md')
+      : path.join('.gitlab', 'merge_request_template.md');
 
   processTemplate(templatePath, outputPath, {});
 
